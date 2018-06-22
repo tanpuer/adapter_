@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+
+<script>
+    var canvas = document.getElementById("canvas");
+    var _addEventListener = canvas.addEventListener;
+    canvas.addEventListener = function (type, callback, options) {
+        switch (type){
+            case "touchstart": {
+                type = "mousedown";
+                break;
+            }
+            case "touchmove": {
+                type = "mousemove";
+                break;
+            }
+            case "touchend": {
+                type = "mouseup";
+                break;
+            }
+            case "touchcancel" :{
+                type = "mousecancel";
+                break;
+            }
+        }
+        _addEventListener(type,callback,options);
+    }
+</script>
+<!--<script src="../dist/browser/bundle.js"></script>-->
+<script src="http://10.5.162.73:8082/game"></script>
+<script>
+    var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);
+</script>
+
+<!--<script src="./stats.js"></script>-->
+<script src="http://10.5.162.73:8082/stats"></script>
+<script>
+    var stats = new Stats();
+    stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild( stats.dom );
+
+    function animate() {
+
+        stats.begin();
+
+        // monitored code goes here
+
+        stats.end();
+
+        requestAnimationFrame( animate );
+
+    }
+
+    requestAnimationFrame( animate );
+</script>
+</html>
