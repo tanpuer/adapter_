@@ -1,5 +1,5 @@
 const path = require('path');
-var ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
     entry: {
@@ -21,18 +21,7 @@ module.exports = {
     },
     devtool: "source-map",
     plugins: [
-        // ...
-        function()
-        {
-            this.plugin("done", function(stats)
-            {
-                if (stats.compilation.errors && stats.compilation.errors.length)
-                {
-                    console.log(stats.compilation.errors);
-                    process.exit(1);
-                }
-            });
-        }
+        // new UglifyJsPlugin()
     ],
 
 };

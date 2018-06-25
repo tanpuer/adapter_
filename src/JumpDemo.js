@@ -58,10 +58,8 @@ export default class JumpDemo {
         shadowLight.shadow.right = 100;
         shadowLight.shadow.top = 100;
         shadowLight.shadow.bottom = -100;
-        // shadowLight.shadow.near = 0.1;
-        // shadowLight.shadow.far = 1000;
-        shadowLight.shadow.camera.near = 0.1;
-        shadowLight.shadow.camera.fa = 100;
+        // shadowLight.shadow.camera.near = 0.1;
+        // shadowLight.shadow.camera.far = 100;
         shadowLight.shadow.mapSize.width = 1024;
         shadowLight.shadow.mapSize.height = 1024;
         scene.add(shadowLight);

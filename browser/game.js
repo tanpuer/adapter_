@@ -4,3 +4,5 @@
 
 import MeshDemo from '../src/MeshDemo';
 new MeshDemo();
+
+// import wxJump from '../src/'

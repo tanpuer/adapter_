@@ -19,6 +19,11 @@ export default function image() {
                 console.log("image onload");
                 callback.call(img);
             }
+        }else if (type === 'error'){
+            img.onerror = function () {
+                console.log("image onerror");
+                callback.call({});
+            }
         }
         oldAddEventListener.call(this,type,callback,options);
     };
