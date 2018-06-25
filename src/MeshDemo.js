@@ -19,13 +19,19 @@ export default class MeshDemo {
 
     drawSphere() {
         let geometry = new THREE.SphereGeometry(0.6, 32, 32);
-        // let texture = new THREE.TextureLoader().load("res/moonmap.bmp");
-        let material = new THREE.MeshBasicMaterial({color: "#000000" });
-        this.sphere = new THREE.Mesh(geometry, material);
-        this.scene.add(this.sphere);
-        this.renderer.render(this.scene, this.camera);
-        requestAnimationFrame(() => this.loop());
-        this.addArrowOnSphere();
+        let loader = new THREE.TextureLoader();
+        loader.setCrossOrigin("");
+        loader.load("http://10.5.162.73:8082/moonmap",(texture)=>{
+            console.log("loader load callback");
+            console.log(texture.image != null);
+            let material = new THREE.MeshBasicMaterial({map:texture});
+            this.sphere = new THREE.Mesh(geometry, material);
+            this.scene.add(this.sphere);
+            this.renderer.render(this.scene, this.camera);
+            this.addArrowOnSphere();
+            requestAnimationFrame(() => this.loop());
+        });
+        // let texture = new THREE.TextureLoader().load("http://10.5.162.73:8082/moonmap");
     }
 
     addArrowOnSphere() {

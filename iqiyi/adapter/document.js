@@ -1,5 +1,5 @@
 import Canvas from './Canvas';
-import Image from './Image';
+import createImage from './image';
 import HTMLElement from './HTMLElement'
 
 class Document extends HTMLElement{
@@ -9,12 +9,13 @@ class Document extends HTMLElement{
     }
 
     createElement(tagName){
+        console.log("createElement: " + tagName);
         if (tagName === "canvas"){
-            return new Canvas();
+            return Canvas();
         } else if (tagName === "img") {
-            return new Image();
+            return new createImage();
         }
-        return null;
+        return new HTMLElement(tagName);
     }
 
     createElementNS(namespaceURI, qualifiedName, options={}){

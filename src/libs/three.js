@@ -31874,13 +31874,14 @@
         load: function ( url, onLoad, onProgress, onError ) {
 
             var texture = new Texture();
-
+            console.log("new imageloader");
             var loader = new ImageLoader( this.manager );
             loader.setCrossOrigin( this.crossOrigin );
             loader.setPath( this.path );
 
             loader.load( url, function ( image ) {
-
+                console.log("load :" ,url);
+                console.log(image);
                 texture.image = image;
 
                 // JPEGs can't have an alpha channel, so memory can be saved by storing them as RGB.

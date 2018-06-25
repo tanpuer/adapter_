@@ -1,5 +1,4 @@
 import Canvas from "./Canvas";
-import Image from "./Image";
 import document from './document';
 import navigator from './navigator';
 import HTMLElement from './HTMLElement'
@@ -16,14 +15,12 @@ const innerHeight = gl.canvas.height;
 canvas.addEventListener = function(){};
 gl.getExtension = function(){};
 
-console.log("gl properties");
-Object.getOwnPropertyNames(gl).forEach((val,idx,array)=>{
-    console.log(gl[val]);
-});
+// console.log("gl properties");
+// Object.getOwnPropertyNames(gl).forEach((val,idx,array)=>{
+//     console.log(gl[val]);
+// });
 
 const _window = {
-    Canvas:Canvas,
-    Image: Image,
     canvas: canvas,
     gl:gl,
     innerWidth:innerWidth,
