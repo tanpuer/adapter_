@@ -1,7 +1,10 @@
 import *as mat4 from './gl-matrix/mat4';
 import {
     initShaderProgram,
+    loadTexture,
 } from './extension';
+import {vsSource,fsSource} from './shader'
+import {initBuffers} from './buffers';
 
 const canvas = document.getElementById("canvas");
 const gl = canvas.getContext("webgl");
@@ -11,57 +14,38 @@ if (!gl){
 gl.clearColor(0,0,0,1.0);
 gl.clear(gl.COLOR_BUFFER_BIT);
 
-const vsSource = `
-        attribute vec4 aVertexPosition;
-        uniform mat4 uModelViewMatrix;
-        uniform mat4 uProjectionMatrix;
-
-        void main(){
-            gl_Position = uProjectionMatrix*uModelViewMatrix*aVertexPosition;
-        }
-    `;
-const fsSource = `
-
-        void main(){
-            gl_FragColor = vec4(1.0,1.0,1.0,1.0);
-        }
-    `;
-
 const shaderProgram = initShaderProgram(gl,vsSource,fsSource);
 const programInfo = {
     program:shaderProgram,
     attribLocations:{
         vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
+        textureCoord: gl.getAttribLocation(shaderProgram, "aTextureCoord"),
     },
     uniformLocations:{
         modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
         projectionMatrix: gl.getUniformLocation(shaderProgram,"uProjectionMatrix"),
+        uSampler: gl.getUniformLocation(shaderProgram,"uSampler"),
     }
 };
 
 const buffers = initBuffers(gl);
-drawScene(gl,programInfo,buffers);
+const texture = loadTexture(gl,"../res/moonmap.bmp");
+
+let then = 0;
+let squareRotation = 0;
+
+requestAnimationFrame(render);
 
 
-function initBuffers(gl) {
-    //得到缓冲对象并保存在缓冲顶点器
-    const positionBuffer = gl.createBuffer();
-    //绑定上下文
-    gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);
-    let vertices = [
-        1.0,1.0,0,
-        -1.0,1.0,0,
-        -1.0,-1.0,0,
-        1.0,-1.0,0
-    ];
-    //pass the list of positions to webgl to build the shape
-    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertices),gl.STATIC_DRAW);
-    return{
-        position:positionBuffer
-    };
+function render(now) {
+    now *= 0.001;
+    const deltaTime = now - then;
+    then = now;
+    drawScene(gl,programInfo,buffers,texture,deltaTime);
+    requestAnimationFrame(render)
 }
 
-function drawScene(gl, programInfo, buffers) {
+function drawScene(gl, programInfo, buffers,texture,deltaTime) {
     gl.clearColor(0.0,0.0,0.0,1.0);
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
@@ -86,6 +70,12 @@ function drawScene(gl, programInfo, buffers) {
         modelViewMatrix,  //matrix to translate
         [0.0,0.0,-6.0]
     );
+    mat4.rotate(
+        modelViewMatrix,
+        modelViewMatrix,
+        squareRotation,
+        [0,1,1]
+    );
 
     //pull out positions from the position buffer into the vertexPosition Attribute
     {
@@ -106,6 +96,39 @@ function drawScene(gl, programInfo, buffers) {
         gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
     }
 
+    //pull out texture coordinates from texture coordinate buffer into the textureCoord attribute
+    {
+        const numComponents = 2;
+        const type = gl.FLOAT;
+        const normalize = false;
+        const stride =0;
+        const offset =0;
+        gl.bindBuffer(gl.ARRAY_BUFFER,buffers.textureCoord);
+        gl.vertexAttribPointer(
+            programInfo.attribLocations.textureCoord,
+            numComponents,
+            type,
+            normalize,
+            stride,
+            offset
+        );
+        gl.enableVertexAttribArray(programInfo.attribLocations.textureCoord);
+    }
+
+    //pull out normals from the normal buffer into the normalVertex attribute
+    {
+        const numComponents = 3;
+        const type = gl.FLOAT;
+        const normalize = false;
+        const stride = 0;
+        const offset = 0;
+        gl.bindBuffer(gl.ARRAY_BUFFER,buffers.normals);
+
+    }
+
+    //tell webgl which indices to use to index the vertices
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,buffers.indices);
+
     //tell opengl to use our program when drawing
     gl.useProgram(programInfo.program);
 
@@ -121,10 +144,19 @@ function drawScene(gl, programInfo, buffers) {
         modelViewMatrix
     );
 
+    //tell webgl we want to affect texture unit 0
+    gl.activeTexture(gl.TEXTURE0);
+    //bind texture to texture unit 0
+    gl.bindTexture(gl.TEXTURE_2D,texture);
+    //tell the shader we bind texture to texture unit 0
+    gl.uniform1i(programInfo.uniformLocations.uSampler,0);
+
     {
         const offset = 0;
-        const vertexCount = 4;
-        gl.drawArrays(gl.TRIANGLE_STRIP,offset,vertexCount);
+        const vertexCount = 36;
+        const type = gl.UNSIGNED_SHORT;
+        gl.drawElements(gl.TRIANGLES,vertexCount,type,offset);
     }
 
+    squareRotation += deltaTime;
 }
