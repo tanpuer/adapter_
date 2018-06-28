@@ -26,4 +26,14 @@ app.get('/moonmap',function (req, res) {
     res.sendFile("./res/moonmap.bmp", {root:__dirname});
 });
 
+//layamokey
+app.get('/laya_monkey_lh', function (req, res) {
+    res.sendFile("./laya/res/LayaMonkey/LayaMonkey.lh", {root:__dirname});
+});
+
+app.get('/layaboxpng', function (req, res) {
+    res.sendFile("./res/layabox.png", {root:__dirname});
+});
+
+
 app.listen(8082);
