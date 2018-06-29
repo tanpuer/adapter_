@@ -7,24 +7,36 @@ export const vsSource = `
         uniform mat4 uModelViewMatrix;
         uniform mat4 uProjectionMatrix;
         
-        varying highp vec2 vTextureCoord;
-        varying highp vec3 vLighting;
+        varying vec2 vTextureCoord;
+        varying vec3 vLighting;
 
         void main(){
             gl_Position = uProjectionMatrix*uModelViewMatrix*aVertexPosition;
             vTextureCoord = aTextureCoord;
             
             //Applying lighting
+            
+            vec3 ambientLight = vec3(0.3,0.3,0.3);
+            vec3 directionalColor = vec3(1,1,1);
+            vec3 directionalVector = normalize(vec3(0.85,0.8,0.75));
+            
+            vec4 transformedNormal = uNormalMatrix* vec4(aVertexNormal,1.0);
+            float directional = max(dot(transformedNormal.xyz,directionalVector),0.0);
+            
+            vLighting = ambientLight + (directionalColor * directional);
         }
     `;
 
 
 export const fsSource = `
-        varying highp vec2 vTextureCoord;
+        precision mediump float;
+        varying vec2 vTextureCoord;
+        varying vec3 vLighting;
         
         uniform sampler2D uSampler;
         
         void main(){
-            gl_FragColor = texture2D(uSampler,vTextureCoord);
+            vec4 textureColor = texture2D(uSampler, vTextureCoord);
+            gl_FragColor = vec4(textureColor.rgb * vLighting, textureColor.a);
         }
     `;

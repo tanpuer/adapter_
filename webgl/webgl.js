@@ -20,11 +20,13 @@ const programInfo = {
     attribLocations:{
         vertexPosition: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
         textureCoord: gl.getAttribLocation(shaderProgram, "aTextureCoord"),
+        vertexNormal: gl.getAttribLocation(shaderProgram,"aVertexNormal"),
     },
     uniformLocations:{
         modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
         projectionMatrix: gl.getUniformLocation(shaderProgram,"uProjectionMatrix"),
         uSampler: gl.getUniformLocation(shaderProgram,"uSampler"),
+        normalMatrix: gl.getUniformLocation(shaderProgram,"uNormalMatrix"),
     }
 };
 
@@ -77,6 +79,10 @@ function drawScene(gl, programInfo, buffers,texture,deltaTime) {
         [0,1,1]
     );
 
+    const normalMatrix = mat4.create();
+    mat4.invert(normalMatrix,modelViewMatrix);
+    mat4.transpose(normalMatrix,normalMatrix);
+
     //pull out positions from the position buffer into the vertexPosition Attribute
     {
         const numComponents = 3;
@@ -123,7 +129,15 @@ function drawScene(gl, programInfo, buffers,texture,deltaTime) {
         const stride = 0;
         const offset = 0;
         gl.bindBuffer(gl.ARRAY_BUFFER,buffers.normals);
-
+        gl.vertexAttribPointer(
+            programInfo.attribLocations.vertexNormal,
+            numComponents,
+            type,
+            normalize,
+            stride,
+            offset
+        );
+        gl.enableVertexAttribArray(programInfo.attribLocations.vertexNormal);
     }
 
     //tell webgl which indices to use to index the vertices
@@ -142,6 +156,11 @@ function drawScene(gl, programInfo, buffers,texture,deltaTime) {
         programInfo.uniformLocations.modelViewMatrix,
         false,
         modelViewMatrix
+    );
+    gl.uniformMatrix4fv(
+        programInfo.uniformLocations.normalMatrix,
+        false,
+        normalMatrix
     );
 
     //tell webgl we want to affect texture unit 0

@@ -5,8 +5,8 @@ module.exports = {
     entry: {
         // 'wx':'./wx/game.js',
         // 'iqiyi': './iqiyi/game.js',
-        'browser': './browser/game.js',
-        // 'webgl': './webgl/webgl.js',
+        // 'browser': './browser/game.js',
+        'webgl': './webgl/webgl.js',
     },
     output: {
         filename: '[name]/bundle.js',

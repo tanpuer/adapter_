@@ -120,7 +120,7 @@ export function initBuffers(gl) {
     ];
     const normalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER,normalBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(normalBuffer),gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(vertexNormals),gl.STATIC_DRAW);
 
     const indices = [
         0,  1,  2,      0,  2,  3,    // front
