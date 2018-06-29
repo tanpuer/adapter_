@@ -5,9 +5,18 @@ import {
 } from './extension';
 import {vsSource,fsSource} from './shader'
 import {initBuffers} from './buffers';
+import navigator from "../iqiyi/adapter/navigator";
 
-const canvas = document.getElementById("canvas");
-const gl = canvas.getContext("webgl");
+let canvas = document.getElementById("canvas");
+
+if (navigator.userAgent.indexOf("MiniGame")){
+    canvas =wx.createCanvas();
+}else if (navigator.userAgent.indexOf("iqiyi")){
+    canvas = window.canvas;
+}
+
+let gl = canvas.getContext("webgl");
+
 if (!gl){
     console.log("unable to initialize webgl");
 }
