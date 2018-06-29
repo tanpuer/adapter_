@@ -9,11 +9,6 @@
 //
 // new wxJump();
 
-// import EjectaDemo from '../src/EjectaDemo';
-// new EjectaDemo();
+import EjectaDemo from '../src/EjectaDemo';
+new EjectaDemo();
 
-// import Laya3DDemo from '../laya/Laya3DDemo';
-// new Laya3DDemo();
-
-import LayaCube from '../laya/LayaCube';
-new LayaCube();
