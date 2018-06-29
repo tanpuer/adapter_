@@ -9,9 +9,9 @@ import navigator from "../iqiyi/adapter/navigator";
 
 let canvas = document.getElementById("canvas");
 
-if (navigator.userAgent.indexOf("MiniGame")){
+if (navigator.userAgent.indexOf("MiniGame") != -1){
     canvas =wx.createCanvas();
-}else if (navigator.userAgent.indexOf("iqiyi")){
+}else if (navigator.userAgent.indexOf("iqiyi") != -1){
     canvas = window.canvas;
 }
 
