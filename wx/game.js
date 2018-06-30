@@ -6,5 +6,7 @@ import './tween-adapter'
 //
 // new JumpDemo();
 
-import WXMeshDemo from '../src/WXMeshDemo';
-new WXMeshDemo();
+// import WXMeshDemo from '../src/WXMeshDemo';
+// new WXMeshDemo();
+
+import '../webgl/webgl';

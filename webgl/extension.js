@@ -43,6 +43,7 @@ export function loadTexture(gl,url) {
     gl.texImage2D(gl.TEXTURE_2D,level,internalFormat,width,height,border,srcFormat,srcType,pixel);
 
     const image = new Image();
+    image.crossorigin ='anonymous';
     image.onload = function () {
         //成为当前操作纹理
         gl.bindTexture(gl.TEXTURE_2D,texture);

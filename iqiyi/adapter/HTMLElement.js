@@ -28,15 +28,11 @@ export default class HTMLElement extends Element {
     }
 
     get clientWidth() {
-        const ret = parseInt(this.style.fontSize, 10) * this.innerHTML.length;
-
-        return Number.isNaN(ret) ? 0 : ret
+        return innerWidth;
     }
 
     get clientHeight() {
-        const ret = parseInt(this.style.fontSize, 10);
-
-        return Number.isNaN(ret) ? 0 : ret
+        return innerHeight;
     }
 
     getBoundingClientRect() {

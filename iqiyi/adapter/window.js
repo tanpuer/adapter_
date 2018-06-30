@@ -15,10 +15,6 @@ const innerHeight = gl.canvas.height;
 canvas.addEventListener = function(){};
 gl.getExtension = function(){};
 
-// console.log("gl properties");
-// Object.getOwnPropertyNames(gl).forEach((val,idx,array)=>{
-//     console.log(gl[val]);
-// });
 
 const _window = {
     canvas: canvas,

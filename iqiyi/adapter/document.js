@@ -1,5 +1,5 @@
 import Canvas from './Canvas';
-import createImage from './image';
+import image from './image';
 import HTMLElement from './HTMLElement'
 
 class Document extends HTMLElement{
@@ -13,7 +13,7 @@ class Document extends HTMLElement{
         if (tagName === "canvas"){
             return Canvas();
         } else if (tagName === "img") {
-            return new createImage();
+            return new image();
         }
         return new HTMLElement(tagName);
     }

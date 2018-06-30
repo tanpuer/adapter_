@@ -5,14 +5,9 @@ import {
 } from './extension';
 import {vsSource,fsSource} from './shader'
 import {initBuffers} from './buffers';
-import navigator from "../iqiyi/adapter/navigator";
 
-let canvas = document.getElementById("canvas");
-
-if (navigator.userAgent.indexOf("MiniGame") != -1){
-    canvas =wx.createCanvas();
-}else if (navigator.userAgent.indexOf("iqiyi") != -1){
-    canvas = window.canvas;
+if (canvas == null){
+    console.log("global canvas is null please check");
 }
 
 let gl = canvas.getContext("webgl");
@@ -40,7 +35,7 @@ const programInfo = {
 };
 
 const buffers = initBuffers(gl);
-const texture = loadTexture(gl,"../res/moonmap.bmp");
+const texture = loadTexture(gl,"http://10.5.162.73:8082/firfox");
 
 let then = 0;
 let squareRotation = 0;

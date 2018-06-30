@@ -1,7 +1,6 @@
 import _window from './window';
 
 
-
 console.log("inject!!!");
 let windowKeys = Object.keys(_window);
 for (let i=0;i<windowKeys.length;i++){
