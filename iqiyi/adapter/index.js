@@ -11,5 +11,8 @@ for (let i=0;i<windowKeys.length;i++){
 
 global.window = _window;
 
+window = global;
+window.top = window.parent = window;
+
 
 console.log("window injected");

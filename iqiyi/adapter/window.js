@@ -2,6 +2,7 @@ import Canvas from "./Canvas";
 import document from './document';
 import navigator from './navigator';
 import HTMLElement from './HTMLElement'
+import location from './location';
 
 
 //暴露全局canvas
@@ -24,6 +25,7 @@ const _window = {
     document:document,
     navigator:navigator,
     addEventListener:()=>{},
+    location:location,
 };
 
 export default _window;
